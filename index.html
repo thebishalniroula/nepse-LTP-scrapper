@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body class="bg-slate-200 py-10">
+    <h1 class="text-4xl font-medium text-center">Nepse data</h1>
+    <div class="flex flex-col">
+      <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <thead class="bg-white border-b">
+                <tr>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                  >
+                    #
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                  >
+                    Symbol
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                  >
+                    LTP
+                  </th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const fetchData = async () => {
+        const res = await fetch("/data.json");
+        return await res.json();
+      };
+      (async () => {
+        const data = await fetchData();
+        console.log(data);
+        const tbody = document.getElementsByTagName("tbody")[0];
+        data.forEach((item, index) => {
+          const tr = document.createElement("tr");
+          tr.setAttribute("class", "bg-gray-100 border-b");
+          const td = document.createElement("td");
+          td.setAttribute(
+            "class",
+            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+          );
+          td.innerText = index;
+          const td1 = document.createElement("td");
+          td1.setAttribute(
+            "class",
+            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+          );
+          const td2 = document.createElement("td");
+          td2.setAttribute(
+            "class",
+            "text-md text-gray-800 font-medium px-6 py-4  whitespace-nowrap"
+          );
+          td1.innerText = item.symbol;
+          td2.innerText = item.LTP;
+          tr.appendChild(td);
+          tr.appendChild(td1);
+          tr.appendChild(td2);
+          tbody.appendChild(tr);
+        });
+      })();
+    </script>
+  </body>
+</html>
